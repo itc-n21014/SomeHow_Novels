@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小説執筆アプリ</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>小説執筆アプリ</h1>
+        <label for="siteSelect">投稿サイトを選択:</label>
+        <select id="siteSelect">
+            <option value="narou">小説家になろう</option>
+            <option value="kakuyomu">カクヨム</option>
+            <option value="alphapolis">アルファポリス</option>
+            <option value="hameln">ハーメルン</option>
+            <option value="pixiv">Pixiv</option>
+        </select>
+        <div id="hamelnSpecialTags" style="display: none;">
+            <label for="specialTagSelect">特殊タグを選択:</label>
+            <select id="specialTagSelect">
+                <option value="b">太字</option>
+                <option value="i">斜体</option>
+                <option value="s">取り消し線</option>
+                <option value="u">下線</option>
+                <option value="small">文字縮小</option>
+                <option value="big">文字拡大</option>
+                <option value="xsmall">文字二段階縮小</option>
+                <option value="xbig">文字二段階拡大</option>
+                <option value="center">中央寄せ</option>
+                <option value="right">右寄せ</option>
+                <option value="left">左寄せ</option>
+            </select>
+            <button id="openSpecialTagPopupButton">特殊タグを挿入</button>
+        </div>
+        <input type="text" id="novelTitle" placeholder="タイトルを入力してください" />
+        <input type="text" id="novelSubtitle" placeholder="サブタイトルを入力してください" />
+        <textarea id="novelContent" placeholder="ここに小説を書いてください..."></textarea>
+        <div class="buttons">
+            <button id="saveButton">保存</button>
+            <button id="loadButton">読み込み</button>
+            <button id="clearButton">クリア</button>
+            <button id="downloadButton">ダウンロード</button>
+            <button id="rubyButton">ルビ振り</button>
+            <button id="boutenButton">傍点</button>
+        </div>
+    </div>
+
+    <div id="rubyPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>ルビを入力してください</h2>
+            <input type="text" id="rubyBase" placeholder="基の文字" />
+            <input type="text" id="rubyText" placeholder="ルビ" />
+            <button id="insertRubyButton">挿入</button>
+        </div>
+    </div>
+
+    <div id="boutenPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>傍点を入力してください</h2>
+            <input type="text" id="boutenBase" placeholder="基の文字" />
+            <button id="insertBoutenButton">挿入</button>
+        </div>
+    </div>
+
+    <div id="specialTagPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>特殊タグを入力してください</h2>
+            <input type="text" id="specialTagText" placeholder="特殊タグを適用する文字" />
+            <button id="insertSpecialTagButton">挿入</button>
+        </div>
+    </div>
+
+    <script src="./scripts.js"></script>
+</body>
+</html>
