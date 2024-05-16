@@ -13,6 +13,7 @@ document.getElementById('saveButton').addEventListener('click', function() {
     localStorage.setItem('novelSubtitle', subtitle);
     localStorage.setItem('novelContent', content);
     alert('内容が保存されました');
+    updatePreview();
 });
 
 document.getElementById('loadButton').addEventListener('click', function() {
@@ -24,6 +25,7 @@ document.getElementById('loadButton').addEventListener('click', function() {
         document.getElementById('novelSubtitle').value = subtitle;
         document.getElementById('novelContent').value = content;
         alert('内容が読み込まれました');
+        updatePreview();
     } else {
         alert('保存された内容がありません');
     }
@@ -38,6 +40,7 @@ document.getElementById('clearButton').addEventListener('click', function() {
         localStorage.removeItem('novelSubtitle');
         localStorage.removeItem('novelContent');
         alert('内容がクリアされました');
+        updatePreview();
     }
 });
 
@@ -55,6 +58,59 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 });
+
+document.getElementById('novelContent').addEventListener('input', updatePreview);
+document.getElementById('novelTitle').addEventListener('input', updatePreview);
+document.getElementById('novelSubtitle').addEventListener('input', updatePreview);
+
+function updatePreview() {
+    const title = document.getElementById('novelTitle').value;
+    const subtitle = document.getElementById('novelSubtitle').value;
+    const content = document.getElementById('novelContent').value;
+    const previewTitle = document.getElementById('previewTitle');
+    const previewSubtitle = document.getElementById('previewSubtitle');
+    const previewContent = document.getElementById('previewContent');
+    
+    previewTitle.textContent = `タイトル：${title}`;
+    previewSubtitle.textContent = `サブタイトル：${subtitle}`;
+    
+    let formattedContent = content;
+
+    // ルビのフォーマットをプレビュー用に変換
+    formattedContent = formattedContent
+        .replace(/｜(.*?)《(.*?)》/g, '<ruby>$1<rt>$2</rt></ruby>')
+        .replace(/#(.*?)__(.*?)__/g, '<ruby>$1<rt>$2</rt></ruby>')
+        .replace(/《ruby》(.*?)《rt》(.*?)《\/rt》《\/ruby》/g, '<ruby>$1<rt>$2</rt></ruby>')
+        .replace(/\{(.*?)\|(.*?)\}/g, '<ruby>$1<rt>$2</rt></ruby>');
+
+    // 傍点のフォーマットをプレビュー用に変換
+    formattedContent = formattedContent
+        .replace(/｜(.*?)《・(.*?)》/g, '<span class="bouten">$1</span>')
+        .replace(/《《(.*?)》》/g, '<span class="bouten">$1</span>')
+        .replace(/#(.*?)__(.*?)__/g, '<span class="bouten">$1</span>')
+        .replace(/【(.*?)】/g, '<span class="bouten">$1</span>');
+
+    // 特殊タグのフォーマットをプレビュー用に変換
+    formattedContent = formattedContent
+        .replace(/《b》(.*?)《\/b》/g, '<b>$1</b>')
+        .replace(/《i》(.*?)《\/i》/g, '<i>$1</i>')
+        .replace(/《s》(.*?)《\/s》/g, '<s>$1</s>')
+        .replace(/《u》(.*?)《\/u》/g, '<u>$1</u>')
+        .replace(/《small》(.*?)《\/small》/g, '<small>$1</small>')
+        .replace(/《big》(.*?)《\/big》/g, '<big>$1</big>')
+        .replace(/《xsmall》(.*?)《\/xsmall》/g, '<span style="font-size:smaller;">$1</span>')
+        .replace(/《xbig》(.*?)《\/xbig》/g, '<span style="font-size:larger;">$1</span>')
+        .replace(/《center》(.*?)《\/center》/g, '<div style="text-align:center;">$1</div>')
+        .replace(/《right》(.*?)《\/right》/g, '<div style="text-align:right;">$1</div>')
+        .replace(/《left》(.*?)《\/left》/g, '<div style="text-align:left;">$1</div>');
+
+    previewContent.innerHTML = formattedContent;
+}
+
+// 各ボタンの挿入操作の後にプレビューを更新する
+document.getElementById('insertRubyButton').addEventListener('click', updatePreview);
+document.getElementById('insertBoutenButton').addEventListener('click', updatePreview);
+document.getElementById('insertSpecialTagButton').addEventListener('click', updatePreview);
 
 // Ruby button functionality
 document.getElementById('rubyButton').addEventListener('click', function() {
@@ -90,6 +146,7 @@ document.getElementById('insertRubyButton').addEventListener('click', function()
         content.selectionEnd = cursorPos + rubyText.length;
         content.focus();
         document.getElementById('rubyPopup').style.display = 'none';
+        updatePreview();
     } else {
         alert('基の文字とルビを入力してください');
     }
@@ -128,6 +185,7 @@ document.getElementById('insertBoutenButton').addEventListener('click', function
         content.selectionEnd = cursorPos + boutenText.length;
         content.focus();
         document.getElementById('boutenPopup').style.display = 'none';
+        updatePreview();
     } else {
         alert('基の文字を入力してください');
     }
@@ -180,4 +238,5 @@ document.getElementById('insertSpecialTagButton').addEventListener('click', func
     content.selectionEnd = cursorPos + tagText.length;
     content.focus();
     document.getElementById('specialTagPopup').style.display = 'none';
+    updatePreview();
 });
