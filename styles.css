@@ -89,6 +89,48 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Preview Styles */
+#previewContainer {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative; /* 相対位置指定を追加 */
+}
+
+#previewContainer h2 {
+    position: absolute; /* 絶対位置指定を追加 */
+    top: -10px; /* 上部からの位置調整 */
+    left: 10px; /* 左側からの位置調整 */
+    font-size: 14px; /* フォントサイズを小さく */
+    color: rgba(255, 255, 255, 0.7); /* 少し薄い色に */
+    background-color: #444; /* 背景色をプレビューエリアと合わせる */
+    padding: 0 5px; /* テキスト周囲にパディングを追加 */
+}
+
+#novelPreview {
+    white-space: pre-wrap;
+    color: #f1f1f1;
+}
+
+#previewTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px; /* マージンを調整 */
+}
+
+#previewSubtitle {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 5px; /* マージンを調整 */
+}
+
+#previewContent {
+    font-size: 16px;
+    font-weight: normal;
+}
+
 /* Popup Styles */
 .popup {
     display: none;
